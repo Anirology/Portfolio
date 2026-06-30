@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aniruththen Sutherman — Portfolio</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400..700;1,500..700&family=Inter:wght@400;500;600;700&display=swap');
+
+:root{
+  --marble-1:#F8F6F2;
+  --marble-2:#F2EEE6;
+  --warm-gray:#E9E4DA;
+  --ink:#181818;
+  --ink-soft:#575757;
+  --muted:#8E8E8E;
+  --gold:#C9A44D;
+  --gold-warm:#D9B935;
+  --gold-hi:#F4D57A;
+  --gold-antique:#9C7728;
+  --gold-metal:#FFF0B8;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  font-family:'Inter',sans-serif;
+  color:var(--ink);
+  background:
+    linear-gradient(180deg, rgba(248,246,242,.55), rgba(248,246,242,.75)),
+    url('bg_marble.png');
+  background-size:cover;
+  background-position:center top;
+  background-repeat:repeat-y;
+  position:relative;
+  overflow-x:hidden;
+  cursor:none;
+}
+h1,h2,h3{font-family:'Cormorant Garamond',serif; margin:0;}
+img{max-width:100%; display:block;}
+section{position:relative; z-index:2;}
+a, button{cursor:none;}
+
+/* ---------- custom cursor ---------- */
+.cursor-dot, .cursor-ring{
+  position:fixed; top:0; left:0; pointer-events:none; z-index:9999;
+  border-radius:50%; transform:translate(-50%,-50%);
+}
+.cursor-dot{ width:6px; height:6px; background:var(--gold-antique); }
+.cursor-ring{
+  width:34px; height:34px; border:1px solid var(--gold);
+  transition: width .25s ease, height .25s ease, border-color .25s ease, background .25s ease;
+}
+.cursor-ring.hovered{ width:54px; height:54px; background:rgba(201,164,77,.12); border-color:var(--gold-hi); }
+@media (hover:none){ .cursor-dot,.cursor-ring{display:none;} body{cursor:auto;} a,button{cursor:pointer;} }
+
+/* ---------- background texture layer: scrolls WITH content, not fixed to viewport ---------- */
+.bg-texture{
+  position:absolute; top:0; left:0; width:100%; z-index:0; pointer-events:none; overflow:hidden;
+}
+.sparkle{position:absolute; width:3px; height:3px; background:var(--gold-hi); border-radius:50%;
+  box-shadow:0 0 6px 1px rgba(244,213,122,.85); opacity:0; animation:twinkle 4.5s ease-in-out infinite;}
+@keyframes twinkle{0%,100%{opacity:0; transform:scale(.4);} 50%{opacity:.9; transform:scale(1.25);}}
+.vein{position:absolute; opacity:.18; stroke:var(--gold-antique); fill:none; stroke-width:1;}
+
+/* ---------- golden river (continuous SVG, scrolls with page) ---------- */
+.river-wrap{position:absolute; top:0; left:0; width:100%; z-index:0; pointer-events:none;}
+.river path{
+  fill:none; stroke:url(#riverGrad); stroke-linecap:round;
+  filter:drop-shadow(0 0 5px rgba(244,213,122,.55));
+  stroke-dasharray:16 12; animation:flow 7s linear infinite;
+}
+@keyframes flow{to{stroke-dashoffset:-280;}}
+
+/* ============ NAV ============ */
+nav{
+  position:sticky; top:16px; z-index:50;
+  margin:16px auto 0; max-width:1300px;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:16px 32px; border-radius:999px;
+  background:rgba(255,255,255,.4);
+  backdrop-filter:blur(14px) saturate(140%);
+  border:1px solid rgba(255,255,255,.6);
+  box-shadow:0 8px 30px rgba(120,90,30,.08), inset 0 1px 0 rgba(255,255,255,.7);
+  overflow:hidden;
+}
+nav::before{content:""; position:absolute; top:0; left:-150%; width:55%; height:100%;
+  background:linear-gradient(100deg, transparent, rgba(255,255,255,.6), transparent);
+  animation:navShine 8s ease-in-out infinite;}
+@keyframes navShine{0%{left:-150%;}45%{left:150%;}100%{left:150%;}}
+.logo{font-family:'Cormorant Garamond',serif; font-style:italic; font-weight:600; font-size:22px; color:var(--gold-antique);}
+.nav-links{display:flex; gap:38px; list-style:none; margin:0; padding:0;}
+.nav-links a{text-decoration:none; color:var(--ink); font-size:15px; font-weight:500; position:relative;}
+.nav-links a::after{content:""; position:absolute; left:0; bottom:-6px; width:0; height:1px; background:var(--gold); transition:width .3s ease;}
+.nav-links a:hover{color:var(--gold-antique);}
+.nav-links a:hover::after{width:100%;}
+
+.wrap{max-width:1300px; margin:0 auto; padding:0 32px;}
+
+/* ============ HERO ============ */
+.hero{display:grid; grid-template-columns:.95fr 1.05fr; align-items:center; gap:40px; padding:90px 0 60px;}
+.name-1{display:block; font-style:italic; font-weight:600; font-size:clamp(40px,5vw,64px);
+  background:linear-gradient(90deg, var(--gold-antique), var(--gold-hi), var(--gold-antique));
+  background-size:200% auto; -webkit-background-clip:text; background-clip:text; color:transparent;
+  animation:floatY 5s ease-in-out infinite, shimmer 6s linear infinite, fadeUp .9s ease forwards .1s;
+}
+.name-2{display:block; font-weight:700; font-size:clamp(48px,6.4vw,82px); color:var(--ink); opacity:0; animation:fadeUp .9s ease forwards .3s;}
+@keyframes shimmer{to{background-position:200% center;}}
+@keyframes floatY{0%,100%{transform:translateY(0);}50%{transform:translateY(-7px);}}
+@keyframes fadeUp{from{opacity:0; transform:translateY(18px); filter:blur(6px);} to{opacity:1; transform:translateY(0); filter:blur(0);}}
+.lead{max-width:440px; margin:22px 0 30px; font-size:16.5px; line-height:1.65; color:var(--ink-soft); opacity:0; animation:fadeUp .9s ease forwards .5s;}
+.btn-gold{
+  position:relative; display:inline-flex; align-items:center; gap:8px;
+  padding:14px 34px; border-radius:999px; border:1px solid var(--gold);
+  background:transparent; color:var(--gold-antique); font-weight:600; font-size:13.5px; letter-spacing:1.5px;
+  overflow:hidden; transition:transform .35s ease, color .35s ease;
+  opacity:0; animation:fadeUp .9s ease forwards .7s;
+}
+.btn-gold::before{content:""; position:absolute; inset:0; background:linear-gradient(120deg,var(--gold-antique),var(--gold),var(--gold-hi));
+  transform:translateX(-100%); transition:transform .4s ease; z-index:-1;}
+.btn-gold:hover{color:#fff7e6; transform:scale(1.03);}
+.btn-gold:hover::before{transform:translateX(0);}
+
+/* hero image holder — left side, ready for user photo */
+.portrait{position:relative; display:flex; justify-content:flex-start; order:-1; animation:floatPortrait 6s ease-in-out infinite;}
+@keyframes floatPortrait{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
+.blob{
+  width:380px; height:430px; position:relative;
+  filter:drop-shadow(0 18px 40px rgba(120,90,20,.2));
+  clip-path:path('M190,8 C270,0 345,55 365,140 C385,230 365,300 320,365 C275,430 200,440 135,420 C65,400 8,345 8,265 C8,180 28,105 82,50 C120,15 145,12 190,8 Z');
+  border:3px solid var(--gold);
+  background:repeating-linear-gradient(135deg, rgba(201,164,77,.08) 0 12px, rgba(201,164,77,.02) 12px 24px), rgba(255,255,255,.4);
+  display:flex; align-items:center; justify-content:center; text-align:center;
+  animation:glowPulse 3.5s ease-in-out infinite;
+}
+.blob .holder-label{
+  color:var(--gold-antique); font-size:13px; letter-spacing:1.5px; font-weight:600;
+  display:flex; flex-direction:column; align-items:center; gap:8px; padding:0 30px;
+}
+.blob .holder-label svg{width:34px; height:34px; opacity:.7;}
+.blob img{ width:100%; height:100%; object-fit:cover; position:absolute; inset:0; display:none; }
+@keyframes glowPulse{0%,100%{box-shadow:inset 0 0 18px rgba(244,213,122,.3);}50%{box-shadow:inset 0 0 34px rgba(244,213,122,.65);}}
+
+.divider{width:100%; height:1px; background:linear-gradient(90deg, transparent, var(--gold), transparent); margin:30px 0; opacity:.5;}
+
+/* ============ ABOUT (letter reveal) ============ */
+.about{display:grid; grid-template-columns:.8fr 1.2fr; gap:50px; align-items:start; padding:50px 0 70px;}
+.about-photo{position:relative;}
+.about-photo img{border:1px solid var(--gold); border-radius:4px; filter:grayscale(60%) contrast(1.05);}
+.signature{margin-top:14px; font-family:'Cormorant Garamond',serif; font-style:italic; font-size:28px; color:var(--gold-antique);}
+.about h2{font-style:italic; color:var(--gold-antique); font-size:clamp(28px,3vw,36px); margin-bottom:18px;}
+.about p{line-height:1.8; font-size:16px; margin-bottom:16px;}
+.letter{color:#CFCAC0; transition:color .25s ease;}
+.letter.lit{color:var(--ink);}
+
+/* ============ JOURNEY (horizontal scroll) ============ */
+.section-head{text-align:center; padding:30px 0 10px;}
+.section-head h2{font-style:italic; color:var(--gold-antique); font-size:clamp(28px,3vw,38px);}
+.section-head .deco{color:var(--gold); font-size:14px; letter-spacing:4px;}
+.timeline-row{position:relative; padding:30px 0 60px;}
+.timeline-track{display:flex; gap:22px; overflow-x:auto; scroll-snap-type:x proximity; padding:10px 4px 20px; scrollbar-width:none;}
+.timeline-track::-webkit-scrollbar{display:none;}
+.tcard{
+  flex:0 0 230px; scroll-snap-align:start;
+  background:rgba(255,255,255,.55); backdrop-filter:blur(6px);
+  border:1px solid rgba(201,164,77,.3); border-radius:14px; padding:22px 18px;
+  transition:transform .4s ease, box-shadow .4s ease;
+}
+.tcard:hover{transform:translateY(-8px); box-shadow:0 16px 30px rgba(150,110,30,.18);}
+.tcard .icon{font-size:22px; color:var(--gold-antique); margin-bottom:14px;}
+.tcard h3{font-family:'Inter',sans-serif; font-weight:600; font-size:15.5px; margin-bottom:10px;}
+.tcard p{font-size:13.5px; line-height:1.6; color:var(--ink-soft); margin:0;}
+.nav-arrow{
+  position:absolute; top:50%; transform:translateY(-50%);
+  width:38px; height:38px; border-radius:50%; border:1px solid var(--gold);
+  background:rgba(255,255,255,.6); display:flex; align-items:center; justify-content:center;
+  color:var(--gold-antique); font-size:16px; transition:background .3s ease; z-index:5;
+}
+.nav-arrow:hover{background:var(--gold-hi); color:#fff;}
+.arrow-left{left:-10px;} .arrow-right{right:-10px;}
+
+/* ============ FEATURED CRAFTS (scroll-pinned stacking) ============ */
+.crafts-pin{ height:300vh; position:relative; }
+.crafts-sticky{ position:sticky; top:0; height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+.stack{position:relative; width:100%; max-width:760px; height:360px;}
+.stack-card{
+  position:absolute; inset:0; border-radius:22px; border:1px solid rgba(201,164,77,.35);
+  background:rgba(255,255,255,.65); backdrop-filter:blur(6px);
+  display:flex; align-items:center; justify-content:center;
+  font-family:'Cormorant Garamond',serif; font-style:italic; font-size:24px; color:var(--gold-antique);
+  box-shadow:0 20px 40px rgba(120,90,20,.12);
+  will-change:transform, opacity;
+}
+.crafts-label{margin-top:24px; font-size:13px; letter-spacing:2px; color:var(--muted); text-transform:uppercase;}
+
+/* ============ TESTIMONIALS ============ */
+.testi-head{text-align:center; padding:50px 0 6px;}
+.testi-head h2{font-size:clamp(26px,3vw,34px);}
+.testi-head p{color:var(--muted); font-size:14.5px; margin-top:10px;}
+.testi-track-wrap{overflow:hidden; padding:34px 0 70px; position:relative;}
+.testi-track-wrap::before,.testi-track-wrap::after{content:""; position:absolute; top:0; bottom:0; width:80px; z-index:4;}
+.testi-track-wrap::before{left:0; background:linear-gradient(90deg, var(--marble-1), transparent);}
+.testi-track-wrap::after{right:0; background:linear-gradient(270deg, var(--marble-1), transparent);}
+.testi-track{display:flex; gap:20px; width:max-content; animation:scrollLeft 30s linear infinite;}
+.testi-track-wrap:hover .testi-track{animation-play-state:paused;}
+@keyframes scrollLeft{from{transform:translateX(0);} to{transform:translateX(-50%);}}
+.tcard2{width:230px; flex:0 0 auto; background:rgba(255,255,255,.6); border:1px solid rgba(201,164,77,.25); border-radius:16px; padding:22px; text-align:center;}
+.tcard2 .quote{color:var(--gold); font-size:22px; font-family:Georgia, serif;}
+.tcard2 .avatar{width:46px; height:46px; border-radius:50%; background:var(--warm-gray); margin:6px auto 10px; overflow:hidden;}
+.tcard2 .name{font-weight:600; font-size:14px;}
+.tcard2 .role{font-size:12px; color:var(--muted); margin-bottom:8px;}
+.stars{color:var(--gold); font-size:13px;}
+
+/* ============ FOOTER ============ */
+footer{
+  position:relative; z-index:2; margin-top:0;
+  background:linear-gradient(170deg, var(--gold-antique), var(--gold) 42%, var(--gold-warm) 100%);
+  padding:140px 60px 50px; color:#fff7e6; overflow:hidden;
+}
+/* seamless tiling wave that sits right at the marble -> gold seam */
+.footer-wave{
+  position:absolute; top:0; left:0; width:100%; height:120px;
+  overflow:hidden; line-height:0; transform:translateY(-99%); z-index:3; pointer-events:none;
+}
+.footer-wave .wave-track{
+  display:flex; width:200%; height:100%;
+  animation:waveScroll 16s linear infinite;
+}
+.footer-wave svg{ width:50%; height:100%; flex:0 0 50%; display:block; }
+@keyframes waveScroll{ from{transform:translateX(0);} to{transform:translateX(-50%);} }
+
+footer::before{
+  content:""; position:absolute; inset:0;
+  background:radial-gradient(circle at 20% 20%, rgba(255,255,255,.18), transparent 50%),
+             radial-gradient(circle at 80% 80%, rgba(255,255,255,.12), transparent 50%);
+  animation:liquidShift 10s ease-in-out infinite alternate; z-index:0;
+}
+@keyframes liquidShift{0%{transform:translate(0,0);}100%{transform:translate(2%,-2%);}}
+.footer-inner{position:relative; z-index:2; max-width:1300px; margin:0 auto;}
+.footer-cta{font-family:'Cormorant Garamond',serif; font-size:clamp(34px,5vw,54px); line-height:1.15; font-weight:500;}
+.footer-cta .loop-word{font-style:italic; display:inline-block; min-width:160px; transition:opacity .3s ease;}
+.footer-meta{display:flex; justify-content:space-between; align-items:flex-end; margin-top:40px; flex-wrap:wrap; gap:20px;}
+.footer-email{font-size:15px; opacity:.95;}
+.social-row{display:flex; gap:14px; margin-top:14px;}
+.social-row a{
+  width:40px; height:40px; border-radius:50%; border:1px solid rgba(255,247,230,.5);
+  display:flex; align-items:center; justify-content:center; color:#fff7e6; text-decoration:none;
+  font-size:15px; transition:background .3s ease, transform .3s ease;
+}
+.social-row a:hover{background:rgba(255,247,230,.2); transform:translateY(-3px);}
+.footer-bubbles{position:absolute; inset:0; z-index:1; pointer-events:none; overflow:hidden;}
+.bubble{position:absolute; bottom:-20px; border-radius:50%; background:rgba(255,247,230,.35); animation:rise linear infinite;}
+@keyframes rise{ to{ transform:translateY(-420px) scale(1.2); opacity:0; } }
+
+@media (max-width:900px){
+  .hero, .about{grid-template-columns:1fr;}
+  .nav-links{display:none;}
+  footer{padding:80px 24px 40px;}
+  .portrait{order:0;}
+}
+@media (prefers-reduced-motion: reduce){ *{animation:none !important; transition:none !important;} }
+</style>
+</head>
+<body>
+
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- background texture: golden veins + sparkles, scrolls WITH the page content -->
+<div class="bg-texture" id="bgTexture">
+  <svg width="100%" height="100%" style="position:absolute; top:0; left:0;">
+    <path class="vein" d="M120,40 C220,160 180,320 320,420 C440,500 380,680 520,780 C620,860 560,1020 700,1120" />
+    <path class="vein" d="M1100,80 C1000,220 1080,360 960,480 C860,580 940,740 820,860 C740,940 800,1080 700,1180" />
+    <path class="vein" d="M300,1400 C420,1500 380,1650 520,1740 C640,1820 580,1980 720,2080" />
+    <path class="vein" d="M950,1600 C850,1720 920,1860 800,1960 C700,2040 760,2200 660,2320" />
+  </svg>
+</div>
+
+<!-- continuous golden river across whole page (scrolls with content) -->
+<div class="river-wrap" id="riverWrap">
+  <svg class="river" width="100%" height="100%" viewBox="0 0 1300 4400" preserveAspectRatio="none">
+    <defs>
+      <linearGradient id="riverGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#F4D57A"/>
+        <stop offset="50%" stop-color="#C9A44D"/>
+        <stop offset="100%" stop-color="#9C7728"/>
+      </linearGradient>
+    </defs>
+    <path stroke-width="2.2" d="
+      M 420,0
+      C 470,90 560,120 600,210
+      C 650,320 580,380 640,460
+      C 700,540 800,520 840,610
+      C 880,700 800,760 760,860
+      C 720,960 650,1000 700,1100
+      C 750,1200 880,1180 900,1300
+      C 920,1420 800,1460 760,1580
+      C 720,1700 760,1820 700,1920
+      C 650,2010 560,2000 540,2100
+      C 520,2200 620,2260 600,2360
+      C 580,2460 460,2480 480,2600
+      C 500,2720 640,2740 660,2860
+      C 680,2980 560,3020 580,3140
+      C 600,3260 740,3280 760,3400
+      C 780,3520 680,3580 700,3700
+      C 720,3820 880,3840 900,3960
+      C 920,4080 820,4120 850,4250
+      C 870,4330 900,4370 920,4400
+    "/>
+  </svg>
+</div>
+
+<nav>
+  <div class="logo">SA</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#crafts">Crafts</a></li>
+    <li><a href="#testimonials">Testimonial</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<div class="wrap">
+
+  <!-- HERO -->
+  <section class="hero" id="hero">
+    <div class="portrait">
+      <div class="blob" id="imgHolder">
+        <div class="holder-label">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="M21 15l-5-5L5 21"/></svg>
+          Add your photo here
+        </div>
+        <img id="heroImg" src="" alt="Aniruththen">
+      </div>
+    </div>
+    <div>
+      <h1>
+        <span class="name-1">Aniruththen</span>
+        <span class="name-2">Sutherman</span>
+      </h1>
+      <p class="lead">Full-stack engineering with a marketer's instinct for story. I build digital things that load fast and read well — code and craft, rarely separated.</p>
+      <button class="btn-gold">RESUME ✦</button>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ABOUT -->
+  <section class="about" id="about">
+    <div class="about-photo">
+      <img src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?q=80&w=600&auto=format&fit=crop" alt="Aniruththen">
+      <div class="signature">Aniruththen</div>
+    </div>
+    <div>
+      <h2>a little about me</h2>
+      <p class="reveal-text">My journey into design started long before product design. I began with graphic design at a young age, spending years experimenting with Photoshop, branding projects, and freelance work. During college, I worked part-time designing websites, emails, and social media campaigns, which helped me build a strong foundation across different areas of design.</p>
+      <p class="reveal-text">Today, I work on consumer and enterprise products, where I enjoy turning complex workflows into experiences that feel simple and intuitive. I'm particularly drawn to problems that sit at the intersection of user needs, business goals, and technical constraints.</p>
+    </div>
+  </section>
+
+  <!-- JOURNEY -->
+  <div class="section-head">
+    <div class="deco">✦</div>
+    <h2>The Journey So Far</h2>
+  </div>
+  <div class="timeline-row">
+    <div class="nav-arrow arrow-left" id="tLeft">&#8249;</div>
+    <div class="nav-arrow arrow-right" id="tRight">&#8250;</div>
+    <div class="timeline-track" id="timelineTrack">
+      <div class="tcard"><div class="icon">▶</div><h3>Hit 1.5 Million Views on YouTube – Zion The Z</h3><p>As a self-taught graphic designer and video editor, I have created thousands of videos across more than ten channels, achieving 1.5 million views and 4,000+ subscribers on YouTube under the name Zion The Z, which has now evolved into Anirology.</p></div>
+      <div class="tcard"><div class="icon">📣</div><h3>Digital Marketing Executive at Mediplace</h3><p>Joined as a Junior Digital Marketer and quickly advanced to Digital Marketing Executive, successfully running ad campaigns with a cost per lead (CPL) of just $0.06.</p></div>
+      <div class="tcard"><div class="icon">&lt;/&gt;</div><h3>Uki – Full Stack Development</h3><p>While studying full stack development and learning entrepreneurship at Uki, I have worked on numerous projects, honing my skills in both front-end and back-end technologies.</p></div>
+      <div class="tcard"><div class="icon">🎓</div><h3>University of Moratuwa Bachelor of Information Technology</h3><p>While studying at the well-known University of Moratuwa in Sri Lanka, I have worked on numerous projects, building a comprehensive understanding of the entire development process.</p></div>
+      <div class="tcard"><div class="icon">AI</div><h3>Advanced Certificate in AI in Computing – University of Jaffna</h3><p>Completed an advanced certification focused on AI concepts, algorithms, machine learning, and real-world applications from University of Jaffna.</p></div>
+    </div>
+  </div>
+
+  <!-- FEATURED CRAFTS — scroll-pinned stacking -->
+  <div class="section-head" id="crafts">
+    <div class="deco">✦</div>
+    <h2>Featured Crafts</h2>
+  </div>
+  <div class="crafts-pin" id="craftsPin">
+    <div class="crafts-sticky">
+      <div class="stack" id="stack">
+        <div class="stack-card">Project One — Brand Identity</div>
+        <div class="stack-card">Project Two — Web Platform</div>
+        <div class="stack-card">Project Three — Marketing Site</div>
+      </div>
+      <div class="crafts-label">Scroll to reveal</div>
+    </div>
+  </div>
+
+  <!-- TESTIMONIALS -->
+  <div class="testi-head" id="testimonials">
+    <h2>What people say about me</h2>
+    <p>A few reflections from those I've collaborated with, designed for, shipped alongside, and tackled challenges with.</p>
+  </div>
+  <div class="testi-track-wrap">
+    <div class="testi-track" id="testiTrack"></div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer id="contact">
+  <div class="footer-wave">
+    <div class="wave-track">
+      <svg viewBox="0 0 1400 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0,55 C100,20 200,90 300,55 C400,20 500,90 600,55 C700,20 800,90 900,55 C1000,20 1100,90 1200,55 C1300,20 1350,40 1400,55 L1400,120 L0,120 Z" fill="#F8F6F2"/>
+      </svg>
+      <svg viewBox="0 0 1400 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0,55 C100,20 200,90 300,55 C400,20 500,90 600,55 C700,20 800,90 900,55 C1000,20 1100,90 1200,55 C1300,20 1350,40 1400,55 L1400,120 L0,120 Z" fill="#F8F6F2"/>
+      </svg>
+    </div>
+  </div>
+  <div class="footer-bubbles" id="bubbles"></div>
+  <div class="footer-inner">
+    <div class="footer-cta">lets <span class="loop-word" id="loopWord">Create</span> incredible<br>work together.</div>
+    <div class="footer-meta">
+      <div class="footer-email">e-mail : anirology@gmail.com</div>
+      <div class="social-row">
+        <a href="#" aria-label="LinkedIn">in</a>
+        <a href="#" aria-label="GitHub">gh</a>
+        <a href="#" aria-label="Instagram">ig</a>
+        <a href="#" aria-label="YouTube">▶</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ---------------- custom cursor ---------------- */
+const dot=document.getElementById('cursorDot'), ring=document.getElementById('cursorRing');
+let mx=0,my=0, rx=0, ry=0;
+window.addEventListener('mousemove', e=>{ mx=e.clientX; my=e.clientY; dot.style.left=mx+'px'; dot.style.top=my+'px'; });
+function ringLoop(){
+  rx += (mx-rx)*0.15; ry += (my-ry)*0.15;
+  ring.style.left=rx+'px'; ring.style.top=ry+'px';
+  requestAnimationFrame(ringLoop);
+}
+ringLoop();
+document.querySelectorAll('a,button,.tcard,.stack-card').forEach(el=>{
+  el.addEventListener('mouseenter', ()=>ring.classList.add('hovered'));
+  el.addEventListener('mouseleave', ()=>ring.classList.remove('hovered'));
+});
+
+/* ---------------- background texture sizing (scrolls with content, not fixed) ---------------- */
+function sizeBgTexture(){
+  const footer = document.querySelector('footer');
+  const h = footer.offsetTop;
+  document.getElementById('bgTexture').style.height = h+'px';
+  document.getElementById('riverWrap').style.height = h+'px';
+}
+function scatterSparkles(){
+  const field=document.getElementById('bgTexture');
+  field.querySelectorAll('.sparkle').forEach(s=>s.remove());
+  const footer = document.querySelector('footer');
+  const h = footer.offsetTop;
+  const count = Math.round(h/40);
+  for(let i=0;i<count;i++){
+    const s=document.createElement('div'); s.className='sparkle';
+    s.style.left=Math.random()*100+'%';
+    s.style.top=(Math.random()*h)+'px';
+    s.style.animationDelay=(Math.random()*5)+'s';
+    s.style.animationDuration=(2.5+Math.random()*3)+'s';
+    const size=(1.5+Math.random()*2.2).toFixed(1);
+    s.style.width=size+'px'; s.style.height=size+'px';
+    field.appendChild(s);
+  }
+}
+window.addEventListener('load', ()=>{ sizeBgTexture(); scatterSparkles(); });
+window.addEventListener('resize', ()=>{ sizeBgTexture(); scatterSparkles(); });
+
+/* ---------------- journey: horizontal scroll track, wheel-to-horizontal ---------------- */
+const track=document.getElementById('timelineTrack');
+document.getElementById('tLeft').onclick=()=>track.scrollBy({left:-260,behavior:'smooth'});
+document.getElementById('tRight').onclick=()=>track.scrollBy({left:260,behavior:'smooth'});
+track.addEventListener('wheel', (e)=>{
+  if(Math.abs(e.deltaY) > Math.abs(e.deltaX)){
+    e.preventDefault();
+    track.scrollLeft += e.deltaY * 1.1;
+  }
+}, {passive:false});
+
+/* ---------------- crafts: scroll-pinned stacking animation ---------------- */
+const craftsPin=document.getElementById('craftsPin');
+const cards=[...document.querySelectorAll('.stack-card')];
+function updateStack(){
+  const rect=craftsPin.getBoundingClientRect();
+  const total=rect.height - window.innerHeight;
+  let progress = -rect.top / total;
+  progress = Math.min(Math.max(progress,0),1);
+  const segment = 1/cards.length;
+  cards.forEach((card,i)=>{
+    const start=i*segment;
+    let p=(progress-start)/segment;
+    p=Math.min(Math.max(p,0),1);
+    const y = (1-p) * 30 + i*14 - (progress*cards.length>i ? i*14 : 0);
+    const baseOffset = i*14;
+    const translate = baseOffset - (progress*100)*0 ; // base resting stack offset
+    const liftOut = p * -160;
+    const rotate = p * (i%2===0 ? -6 : 6);
+    const scale = 1 - i*0.04 + p*0.04;
+    const opacity = i===0 ? 1-p*0.9 : 1;
+    card.style.transform = `translateY(${baseOffset + liftOut}px) scale(${scale}) rotate(${i===0?rotate*p:0}deg)`;
+    card.style.zIndex = 10-i;
+    card.style.opacity = i===0 ? Math.max(opacity,0.05) : 1;
+  });
+}
+window.addEventListener('scroll', updateStack);
+window.addEventListener('load', updateStack);
+
+/* ---------------- about section: letter-by-letter grey -> black reveal on scroll ---------------- */
+document.querySelectorAll('.reveal-text').forEach(p=>{
+  const text=p.textContent;
+  p.innerHTML='';
+  [...text].forEach(ch=>{
+    const span=document.createElement('span');
+    span.className='letter';
+    span.textContent=ch;
+    p.appendChild(span);
+  });
+});
+const allLetters=[...document.querySelectorAll('.reveal-text')];
+function updateLetters(){
+  allLetters.forEach(p=>{
+    const rect=p.getBoundingClientRect();
+    const vh=window.innerHeight;
+    // progress: 0 when block bottom enters viewport bottom, 1 when block top reaches ~35% viewport
+    const start = vh*0.95;
+    const end = vh*0.35;
+    let progress = (start - rect.top) / (start-end);
+    progress = Math.min(Math.max(progress,0),1);
+    const letters=p.querySelectorAll('.letter');
+    const litCount = Math.floor(progress*letters.length);
+    letters.forEach((l,i)=>{
+      if(i<litCount) l.classList.add('lit'); else l.classList.remove('lit');
+    });
+  });
+}
+window.addEventListener('scroll', updateLetters);
+window.addEventListener('load', updateLetters);
+
+/* ---------------- testimonials infinite loop ---------------- */
+const testimonials=Array.from({length:5},()=>({name:'Name Surname',role:'Position / Company'}));
+const testiTrack=document.getElementById('testiTrack');
+function card(t){
+  const el=document.createElement('div'); el.className='tcard2';
+  el.innerHTML=`<div class="quote">&ldquo;</div>
+    <div class="avatar"></div>
+    <div class="name">${t.name}</div>
+    <div class="role">${t.role}</div>
+    <div class="stars">★★★★★</div>`;
+  return el;
+}
+[...testimonials,...testimonials].forEach(t=>testiTrack.appendChild(card(t)));
+
+/* ---------------- footer looping word + bubbles ---------------- */
+const words=['Create','Design','Build','Launch','Innovate'];
+let wi=0;
+const loopWord=document.getElementById('loopWord');
+setInterval(()=>{
+  wi=(wi+1)%words.length;
+  loopWord.style.opacity=0;
+  setTimeout(()=>{ loopWord.textContent=words[wi]; loopWord.style.opacity=1; },300);
+},2200);
+
+const bubbles=document.getElementById('bubbles');
+for(let i=0;i<24;i++){
+  const b=document.createElement('div'); b.className='bubble';
+  const size=(4+Math.random()*10).toFixed(0);
+  b.style.width=size+'px'; b.style.height=size+'px';
+  b.style.left=Math.random()*100+'%';
+  b.style.animationDuration=(5+Math.random()*6)+'s';
+  b.style.animationDelay=(Math.random()*6)+'s';
+  bubbles.appendChild(b);
+}
+
+/* ---------------- optional: drop your own photo into the hero holder ----------------
+   To use your own image: replace the empty src="" in #heroImg with your file path,
+   then set #heroImg { display:block } and hide .holder-label.
+-------------------------------------------------------------------------------------- */
+</script>
+</body>
+</html>
